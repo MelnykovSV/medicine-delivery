@@ -15,7 +15,6 @@ import { ToastContainer } from "react-toastify";
 export default function ShoppingCart() {
   const [getItem, setItem] = useLocalStorage();
   useEffect(() => {
-    console.log("local storage");
     const userId = getItem("userId");
     if (!userId) {
       setItem("userId", nanoid());

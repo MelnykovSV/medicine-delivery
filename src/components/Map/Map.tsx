@@ -9,7 +9,7 @@ import {
 } from "@vis.gl/react-google-maps";
 import { Address } from "../../interfaces";
 
-const API_KEY = "AIzaSyCGOxM7KRQJkWrKw-EzNkpEL7cbfOyDKsA";
+const { REACT_APP_GOOGLE_MAPS_KEY, REACT_APP_GEOAPIFY_KEY } = process.env;
 
 interface IMapProps {
   address: Address;
@@ -23,7 +23,7 @@ const Map = ({ address, addressHandler }: IMapProps) => {
     if (!address && mapEvent && mapEvent.detail && mapEvent.detail.latLng) {
       try {
         const res: any = await axios.get(
-          `https://api.geoapify.com/v1/geocode/reverse?lat=${mapEvent.detail.latLng.lat}&lon=${mapEvent.detail.latLng.lng}&format=json&apiKey=d2b74d05829c4590ab00d2470466ad34`
+          `https://api.geoapify.com/v1/geocode/reverse?lat=${mapEvent.detail.latLng.lat}&lon=${mapEvent.detail.latLng.lng}&format=json&apiKey=${REACT_APP_GEOAPIFY_KEY}`
         );
 
         addressHandler({
@@ -42,7 +42,7 @@ const Map = ({ address, addressHandler }: IMapProps) => {
 
   return (
     <div style={{ width: 500, height: 500 }}>
-      <APIProvider apiKey={API_KEY}>
+      <APIProvider apiKey={REACT_APP_GOOGLE_MAPS_KEY!}>
         <GoogleMap
           defaultZoom={12}
           defaultCenter={{ lat: 50.450001, lng: 30.523333 }}

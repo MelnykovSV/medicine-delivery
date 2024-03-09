@@ -103,13 +103,7 @@ export default function OrderUserDataForm() {
       <Map address={address} addressHandler={addressHandler} />
       <AddressAutocomplete address={address} addressHandler={addressHandler} />
       <span>{addressError && !address && "Please enter valid address"}</span>
-      <InputMask
-        mask="+38 (999) 999-99-99"
-        {...register("phone")}
-        onChange={(e) => {
-          console.log(e.target.value);
-        }}
-      />
+      <InputMask mask="+38 (999) 999-99-99" {...register("phone")} />
       <span>{errors.phone && errors.phone.message}</span>
       <input type="text" {...register("name")} />
       <span>{errors.name && errors.name.message}</span>

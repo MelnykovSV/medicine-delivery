@@ -31,7 +31,7 @@ export default function Shop() {
       setIsLoading(true);
 
       try {
-        const pharmaciesData = await axiosInstance.get("api/pharmacies1");
+        const pharmaciesData = await axiosInstance.get("api/pharmacies");
         const pharmacies = pharmaciesData.data.data.pharmacies;
         setPharmacies(pharmacies);
 

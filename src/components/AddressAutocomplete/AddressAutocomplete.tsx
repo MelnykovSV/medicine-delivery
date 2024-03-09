@@ -6,6 +6,8 @@ import {
 } from "@geoapify/react-geocoder-autocomplete";
 import "@geoapify/geocoder-autocomplete/styles/minimal.css";
 
+const { REACT_APP_GEOAPIFY_KEY } = process.env;
+
 interface IAddressAutocompleteProps {
   address: Address;
   addressHandler: (address: Address) => void;
@@ -31,7 +33,7 @@ export default function AddressAutocomplete({
 
   return (
     <S.Container>
-      <GeoapifyContext apiKey="d2b74d05829c4590ab00d2470466ad34">
+      <GeoapifyContext apiKey={REACT_APP_GEOAPIFY_KEY}>
         <GeoapifyGeocoderAutocomplete
           placeholder="Enter address here"
           value={address?.addressLine}
