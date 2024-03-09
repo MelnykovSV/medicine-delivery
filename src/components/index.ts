@@ -5,6 +5,11 @@ import PharmaciesSideBar from "./PharmaciesSideBar/PharmaciesSideBar";
 import MedicinesList from "./MedicinesList/MedicinesList";
 import MedicinesListItem from "./MedicinesListItem/MedicinesListItem";
 import SortingComponent from "./SortingComponent/SortingComponent";
+import ShoppingCartList from "./ShoppingCartList/ShoppingCartList";
+import ShoppingCartListItem from "./ShoppingCartListItem/ShoppingCartListItem";
+import Map from "./Map/Map";
+import OrderUserDataForm from "./OrderUserDataForm/OrderUserDataForm";
+import AddressAutocomplete from "./AddressAutocomplete/AddressAutocomplete";
 
 export {
   SharedLayout,
@@ -13,5 +18,10 @@ export {
   PharmaciesSideBar,
   MedicinesList,
   MedicinesListItem,
-  SortingComponent
+  SortingComponent,
+  ShoppingCartList,
+  ShoppingCartListItem,
+  Map,
+  OrderUserDataForm,
+  AddressAutocomplete,
 };

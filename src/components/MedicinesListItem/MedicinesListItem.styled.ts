@@ -7,3 +7,9 @@ export const StyledFavoriteButton = styled.button`
     background-color: green;
   }
 `;
+
+export const StyledShoppingCartButton = styled.button`
+  &.inCart {
+    background-color: lime;
+  }
+`;

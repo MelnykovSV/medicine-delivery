@@ -8,6 +8,8 @@ import SortingComponent from "../SortingComponent/SortingComponent";
 import Pagination from "@mui/material/Pagination";
 import { sortFavorites } from "../../helpers";
 import { useFavorites } from "../../hooks";
+import { toast } from "react-toastify";
+import { getErrorMessage } from "../../helpers";
 
 interface IMedicinesListProps {
   currentPharmacyId: string;
@@ -31,17 +33,19 @@ export default function MedicinesList({
   useEffect(() => {
     (async () => {
       setisLoading(true);
-      const medicinesData = await axiosInstance(
-        `api/medicines?pharmacy=${currentPharmacyId}&sortingParam=${sortingParam}&sortingDirection=${sortingDirection}&page=${currentPage}`
-      );
-
-      const medicines = medicinesData.data.data.medicines;
-      const totalPages = medicinesData.data.data.totalPages;
-
-      console.log(medicinesData.data.data);
-      setTotalPages(totalPages);
-      setMedicines(medicines);
-      setisLoading(false);
+      try {
+        const medicinesData = await axiosInstance(
+          `api/medicines?pharmacy=${currentPharmacyId}&sortingParam=${sortingParam}&sortingDirection=${sortingDirection}&page=${currentPage}`
+        );
+        const medicines = medicinesData.data.data.medicines;
+        const totalPages = medicinesData.data.data.totalPages;
+        setTotalPages(totalPages);
+        setMedicines(medicines);
+        setisLoading(false);
+      } catch (error) {
+        toast.error(getErrorMessage(error));
+        setisLoading(false);
+      }
     })();
   }, [currentPharmacyId, sortingParam, sortingDirection, currentPage]);
 

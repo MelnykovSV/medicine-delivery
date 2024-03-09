@@ -1,13 +1,13 @@
 import * as S from "./MedicinesListItem.styled";
-import { useFavorites } from "../../hooks";
+import { useFavorites, useShoppingCart } from "../../hooks";
 
 interface IMedicinesListItemProps {
   id: string;
   name: string;
   price: number;
   image: string;
-  createdAt: Date;
-  updatedAt: Date;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export default function MedicinesListItem({
@@ -19,6 +19,7 @@ export default function MedicinesListItem({
   updatedAt,
 }: IMedicinesListItemProps) {
   const { favorites, updateFavorites } = useFavorites();
+  const { shoppingCart, updateShoppingCart } = useShoppingCart();
 
   const favoritesHandler = () => {
     if (favorites.includes(id)) {
@@ -28,22 +29,35 @@ export default function MedicinesListItem({
     }
   };
 
-  const cartHandler = () => {};
+  const shoppingCartHandler = () => {
+    if (shoppingCart.find((item) => item.id === id)) {
+      updateShoppingCart(shoppingCart.filter((item) => item.id !== id));
+    } else {
+      updateShoppingCart([...shoppingCart, { id, amount: 1 }]);
+    }
+  };
   return (
     <S.Container>
       <p>{id}</p>
       <p>{name}</p>
       <p>{price}</p>
       <p>{image}</p>
-      <p>{createdAt.toString()}</p>
-      <p>{updatedAt.toString()}</p>
+      <p>{createdAt}</p>
+      <p>{updatedAt}</p>
       <S.StyledFavoriteButton
         type="button"
         className={`${favorites.includes(id) ? "favorite" : ""}`}
         onClick={favoritesHandler}>
         Add to Favorite
       </S.StyledFavoriteButton>
-      <button type="button">Add to Cart</button>
+      <S.StyledShoppingCartButton
+        type="button"
+        className={`${
+          shoppingCart.find((item) => item.id === id) ? "inCart" : ""
+        }`}
+        onClick={shoppingCartHandler}>
+        Add to Cart
+      </S.StyledShoppingCartButton>
     </S.Container>
   );
 }

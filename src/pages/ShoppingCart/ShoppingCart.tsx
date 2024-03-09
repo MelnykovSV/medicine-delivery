@@ -1,8 +1,16 @@
 import { ErrorBoundary } from "react-error-boundary";
-import { ErrorFallback } from "../../components";
+import {
+  ErrorFallback,
+  ShoppingCartList,
+  OrderUserDataForm,
+} from "../../components";
 import { useLocalStorage } from "../../hooks";
 import { nanoid } from "nanoid";
 import { useEffect } from "react";
+import { ShoppingCartProvider } from "../../contextProviders";
+import "react-toastify/dist/ReactToastify.css";
+
+import { ToastContainer } from "react-toastify";
 
 export default function ShoppingCart() {
   const [getItem, setItem] = useLocalStorage();
@@ -15,9 +23,14 @@ export default function ShoppingCart() {
   }, [getItem, setItem]);
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} onReset={(details) => {}}>
-      <div>
-        <h1>Shopping Cart Page</h1>
-      </div>
+      <ShoppingCartProvider>
+        <div>
+          <h1>Shopping Cart Page</h1>
+        </div>
+        <OrderUserDataForm />
+        <ShoppingCartList />
+      </ShoppingCartProvider>
+      <ToastContainer />
     </ErrorBoundary>
   );
 }

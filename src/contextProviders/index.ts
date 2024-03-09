@@ -1,3 +1,4 @@
-import CartProvider from "./CartProvider";
+import FavoritesProvider from "./FavoritesProvider";
+import ShoppingCartProvider from "./ShoppingCartProvider";
 
-export { CartProvider };
+export { FavoritesProvider, ShoppingCartProvider };

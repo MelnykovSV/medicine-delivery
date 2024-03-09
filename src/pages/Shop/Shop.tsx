@@ -8,7 +8,14 @@ import { axiosInstance } from "../../api";
 import { useEffect, useState } from "react";
 import { IPharmacieData } from "../../interfaces";
 import { useSearchParams, useNavigate } from "react-router-dom";
-import { FavoritesProvider } from "../../contextProviders/FavoritesProvider";
+import {
+  FavoritesProvider,
+  ShoppingCartProvider,
+} from "../../contextProviders";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+
+import { getErrorMessage } from "../../helpers";
 
 export default function Shop() {
   const [searchParams] = useSearchParams();
@@ -22,24 +29,27 @@ export default function Shop() {
   useEffect(() => {
     (async () => {
       setIsLoading(true);
-      const pharmaciesData = await axiosInstance.get("api/pharmacies");
 
-      const pharmacies = pharmaciesData.data.data.pharmacies;
+      try {
+        const pharmaciesData = await axiosInstance.get("api/pharmacies1");
+        const pharmacies = pharmaciesData.data.data.pharmacies;
+        setPharmacies(pharmacies);
 
-      setPharmacies(pharmacies);
-      console.log(pharmacies);
-      if (
-        !currentPharmacyId ||
-        (currentPharmacyId &&
-          !pharmacies.find(
-            (item: IPharmacieData) => item._id === currentPharmacyId
-          ))
-      ) {
-        searchParams.set("pharmacy", pharmacies[0]._id);
-        navigate(`?${searchParams.toString()}`);
+        if (
+          !currentPharmacyId ||
+          (currentPharmacyId &&
+            !pharmacies.find(
+              (item: IPharmacieData) => item._id === currentPharmacyId
+            ))
+        ) {
+          searchParams.set("pharmacy", pharmacies[0]._id);
+          navigate(`?${searchParams.toString()}`);
+        }
+        setIsLoading(false);
+      } catch (error) {
+        toast.error(getErrorMessage(error));
+        setIsLoading(false);
       }
-
-      setIsLoading(false);
     })();
   }, [currentPharmacyId, searchParams, navigate]);
 
@@ -52,21 +62,30 @@ export default function Shop() {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} onReset={(details) => {}}>
       <FavoritesProvider>
-        <div>
-          <h1>Shop Page</h1>
-        </div>
-
-        {!isLoading && pharmacies && currentPharmacyId ? (
+        <ShoppingCartProvider>
           <div>
-            <PharmaciesSideBar
-              pharmacies={pharmacies}
-              pharmacyPickHandler={pharmacyPickHandler}
-            />
-            <MedicinesList currentPharmacyId={currentPharmacyId} />
+            <div>
+              <h1>Shop Page</h1>
+            </div>
+
+            {!isLoading ? (
+              <>
+                {!!pharmacies && !!currentPharmacyId && (
+                  <div>
+                    <PharmaciesSideBar
+                      pharmacies={pharmacies}
+                      pharmacyPickHandler={pharmacyPickHandler}
+                    />
+                    <MedicinesList currentPharmacyId={currentPharmacyId} />
+                  </div>
+                )}
+              </>
+            ) : (
+              <p>XXXXXXXXXXXX=====LOADING-Pharmacies=======XXXXXXXXXXX</p>
+            )}
+            <ToastContainer />
           </div>
-        ) : (
-          <p>XXXXXXXXXXXX=====LOADING-Pharmacies=======XXXXXXXXXXX</p>
-        )}
+        </ShoppingCartProvider>
       </FavoritesProvider>
     </ErrorBoundary>
   );

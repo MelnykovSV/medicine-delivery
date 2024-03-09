@@ -6,7 +6,9 @@ interface IFavoritesProviderProps {
   children: ReactElement | ReactElement[];
 }
 
-export const FavoritesProvider = ({ children }: IFavoritesProviderProps) => {
+export default function FavoritesProvider({
+  children,
+}: IFavoritesProviderProps) {
   const [getItem, setItem] = useLocalStorage();
   const [favorites, setFavorites] = useState<string[]>(
     () => getItem("favorites") || []
@@ -21,4 +23,4 @@ export const FavoritesProvider = ({ children }: IFavoritesProviderProps) => {
       {children}
     </FavoritesContext.Provider>
   );
-};
+}

@@ -1,5 +1,5 @@
 import sortFavorites from "./sortFavorites";
+import calculateTotalPrice from "./calculateTotalPrice";
+import getErrorMessage from "./getErrorMessage";
 
-
-
-export {sortFavorites}
+export { sortFavorites, calculateTotalPrice, getErrorMessage };
