@@ -7,6 +7,7 @@ import ShoppingCartListItem from "../ShoppingCartListItem/ShoppingCartListItem";
 import { calculateTotalPrice } from "../../helpers";
 import { toast } from "react-toastify";
 import { getErrorMessage } from "../../helpers";
+import Loader from "../Loader/Loader";
 
 interface ICartMedicineData extends IMedicineData {
   amount: number;
@@ -61,14 +62,7 @@ export default function ShoppingCartList() {
     <S.Container>
       {shoppingCart && medicinesMap ? (
         <>
-          <p>
-            Total price:{" "}
-            {calculateTotalPrice(
-              generateCartList(shoppingCart, medicinesMap)
-            ).toFixed(2)}{" "}
-            $
-          </p>
-          <ul>
+          <S.StyledList>
             {generateCartList(shoppingCart, medicinesMap).map(
               ({
                 _id,
@@ -91,9 +85,18 @@ export default function ShoppingCartList() {
                 />
               )
             )}
-          </ul>
+          </S.StyledList>
+          <S.TotalPriceStyled>
+            Total price:{" "}
+            {calculateTotalPrice(
+              generateCartList(shoppingCart, medicinesMap)
+            ).toFixed(2)}{" "}
+            $
+          </S.TotalPriceStyled>
         </>
-      ) : null}
+      ) : (
+        <Loader />
+      )}
     </S.Container>
   );
 }

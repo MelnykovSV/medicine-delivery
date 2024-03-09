@@ -9,6 +9,7 @@ import { nanoid } from "nanoid";
 import { useEffect } from "react";
 import { ShoppingCartProvider } from "../../contextProviders";
 import "react-toastify/dist/ReactToastify.css";
+import * as S from "./ShoppingCart.styled";
 
 import { ToastContainer } from "react-toastify";
 
@@ -20,14 +21,14 @@ export default function ShoppingCart() {
       setItem("userId", nanoid());
     }
   }, [getItem, setItem]);
+
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback} onReset={(details) => {}}>
       <ShoppingCartProvider>
-        <div>
-          <h1>Shopping Cart Page</h1>
-        </div>
-        <OrderUserDataForm />
-        <ShoppingCartList />
+        <S.Container>
+          <OrderUserDataForm />
+          <ShoppingCartList />
+        </S.Container>
       </ShoppingCartProvider>
       <ToastContainer />
     </ErrorBoundary>

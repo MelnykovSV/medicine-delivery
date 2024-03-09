@@ -3,7 +3,6 @@ import AddressAutocomplete from "../AddressAutocomplete/AddressAutocomplete";
 import { useState } from "react";
 import { Address } from "../../interfaces";
 import Map from "../Map/Map";
-import InputMask from "react-input-mask";
 import { yupResolver } from "@hookform/resolvers/yup";
 import { useForm } from "react-hook-form";
 import { userFormValidation } from "../../validation";
@@ -28,6 +27,7 @@ export default function OrderUserDataForm() {
   } | null>(null);
 
   const [addressError, setAddressError] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [getItem, setItem] = useLocalStorage();
   const { shoppingCart, updateShoppingCart } = useShoppingCart();
 
@@ -50,8 +50,9 @@ export default function OrderUserDataForm() {
   const onSubmit = async (data: UserFormValues) => {
     const localStorageIdValue = getItem("userId");
     if (localStorageIdValue) {
+      setIsLoading(true);
       try {
-        await axiosInstance.post("api/orders/1", {
+        await axiosInstance.post("api/orders", {
           ...data,
           address,
           userId: localStorageIdValue,
@@ -63,15 +64,18 @@ export default function OrderUserDataForm() {
         setValue("name", "");
         updateShoppingCart([]);
         toast.success("Order created");
+        setIsLoading(false);
       } catch (error) {
         toast.error(getErrorMessage(error));
+        setIsLoading(false);
       }
     } else {
       const userId = nanoid();
       setItem("userId", userId);
+      setIsLoading(true);
 
       try {
-        await axiosInstance.post("api/orders/1", {
+        await axiosInstance.post("api/orders", {
           ...data,
           address,
           userId,
@@ -83,8 +87,10 @@ export default function OrderUserDataForm() {
         setValue("name", "");
         updateShoppingCart([]);
         toast.success("Order created");
+        setIsLoading(false);
       } catch (error) {
         toast.error(getErrorMessage(error));
+        setIsLoading(false);
       }
     }
   };
@@ -102,17 +108,34 @@ export default function OrderUserDataForm() {
       }}>
       <Map address={address} addressHandler={addressHandler} />
       <AddressAutocomplete address={address} addressHandler={addressHandler} />
-      <span>{addressError && !address && "Please enter valid address"}</span>
-      <InputMask mask="+38 (999) 999-99-99" {...register("phone")} />
-      <span>{errors.phone && errors.phone.message}</span>
-      <input type="text" {...register("name")} />
-      <span>{errors.name && errors.name.message}</span>
-      <input type="text" {...register("email")} />
-      <span>{errors.email && errors.email.message}</span>
+      <S.ErrorField>
+        {addressError && !address && "Please enter valid address"}
+      </S.ErrorField>
+      <S.StyledInputWithMask
+        placeholder="Enter phone here"
+        mask="+38 (999) 999-99-99"
+        {...register("phone")}
+      />
+      <S.ErrorField>{errors.phone && errors.phone.message}</S.ErrorField>
+      <S.StyledInput
+        placeholder="Enter name here"
+        type="text"
+        {...register("name")}
+      />
+      <S.ErrorField>{errors.name && errors.name.message}</S.ErrorField>
+      <S.StyledInput
+        placeholder="Enter email here"
+        type="text"
+        {...register("email")}
+      />
+      <S.ErrorField>{errors.email && errors.email.message}</S.ErrorField>
 
-      <button type="submit" disabled={!shoppingCart.length}>
-        Submit
-      </button>
+      <S.StyledButton
+        type="submit"
+        className={isLoading ? "loading" : ""}
+        disabled={!shoppingCart.length}>
+        Register the order
+      </S.StyledButton>
     </S.Container>
   );
 }

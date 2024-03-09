@@ -1,6 +1,11 @@
 import { IMedicineData } from "../../interfaces";
 import * as S from "./ShoppingCartListItem.styled";
 import { useShoppingCart } from "../../hooks";
+import placeholderImage from "../../images/placeholder-image.jpg";
+import TruncateMarkup from "react-truncate-markup";
+import dayjs from "dayjs";
+import { VscTriangleUp, VscTriangleDown } from "react-icons/vsc";
+import { FaTrashAlt } from "react-icons/fa";
 
 interface ICartMedicineData extends IMedicineData {
   amount: number;
@@ -51,33 +56,44 @@ export default function ShoppingCartListItem({
 
   return (
     <S.Container>
-      <p>{name}</p>
-      <p>{image}</p>
-      <p>{price}</p>
-      <p>{_id}</p>
-
-      <p>{createdAt}</p>
-      <p>{updatedAt}</p>
+      <S.ImageThumb>
+        <img src={image || placeholderImage} alt={name} />
+      </S.ImageThumb>
       <div>
-        <button type="button" onClick={incrementCartItemHandler}>
-          Increment
-        </button>
-        <S.StyledNumberInput
-          type="text"
-          pattern="[0-9]+"
-          value={amount}
-          onChange={inputChangeHandler}
-        />
-        <button
-          type="button"
-          onClick={decrementCartItemHandler}
-          disabled={amount <= 1}>
-          Decrement
-        </button>
-        <p>{amount}</p>
-        <button type="button" onClick={removeFromCartHandler}>
-          Remove from cart
-        </button>
+        <TruncateMarkup lines={2}>
+          <S.Name>{name || "No data"} </S.Name>
+        </TruncateMarkup>
+        <S.Price>Price: {price ? `${price} $` : "No data"} </S.Price>
+        <S.Date>
+          Date added: {dayjs(createdAt).format("DD/MM/YYYY HH:mm") || "No data"}
+        </S.Date>
+
+        <S.BottomBlock>
+          <S.InputWrap>
+            <S.StyledNumberInput
+              type="text"
+              pattern="[0-9]+"
+              value={amount}
+              onChange={inputChangeHandler}
+            />
+
+            <S.ButtonsContainer>
+              <S.StyledButton type="button" onClick={incrementCartItemHandler}>
+                <VscTriangleUp />
+              </S.StyledButton>
+              <S.StyledButton
+                type="button"
+                onClick={decrementCartItemHandler}
+                disabled={amount <= 1}
+                className={amount <= 1 ? "blocked" : ""}>
+                <VscTriangleDown />
+              </S.StyledButton>
+            </S.ButtonsContainer>
+          </S.InputWrap>
+          <S.RemoveButton type="button" onClick={removeFromCartHandler}>
+            <FaTrashAlt />
+          </S.RemoveButton>
+        </S.BottomBlock>
       </div>
     </S.Container>
   );

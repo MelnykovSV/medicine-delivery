@@ -1,6 +1,7 @@
 import axios from "axios";
 import { getErrorMessage } from "../../helpers";
 import { toast } from "react-toastify";
+import * as S from "./Map.styled";
 
 import {
   APIProvider,
@@ -20,7 +21,7 @@ const Map = ({ address, addressHandler }: IMapProps) => {
   const mapClickHandler = async (mapEvent: {
     detail: { latLng: { lat: number; lng: number } | null };
   }) => {
-    if (!address && mapEvent && mapEvent.detail && mapEvent.detail.latLng) {
+    if (!address && mapEvent?.detail?.latLng) {
       try {
         const res: any = await axios.get(
           `https://api.geoapify.com/v1/geocode/reverse?lat=${mapEvent.detail.latLng.lat}&lon=${mapEvent.detail.latLng.lng}&format=json&apiKey=${REACT_APP_GEOAPIFY_KEY}`
@@ -41,7 +42,7 @@ const Map = ({ address, addressHandler }: IMapProps) => {
   };
 
   return (
-    <div style={{ width: 500, height: 500 }}>
+    <S.Container style={{ width: "100%", height: 400 }}>
       <APIProvider apiKey={REACT_APP_GOOGLE_MAPS_KEY!}>
         <GoogleMap
           defaultZoom={12}
@@ -55,7 +56,7 @@ const Map = ({ address, addressHandler }: IMapProps) => {
           ) : null}
         </GoogleMap>
       </APIProvider>
-    </div>
+    </S.Container>
   );
 };
 export default Map;
