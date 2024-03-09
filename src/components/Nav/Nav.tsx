@@ -13,9 +13,9 @@ export default function Nav() {
         <li>
           <S.StyledNavLink to="/history">History</S.StyledNavLink>
         </li>
-        <li>
+        {/* <li>
           <S.StyledNavLink to="/coupons">Coupons</S.StyledNavLink>
-        </li>
+        </li> */}
       </ul>
     </S.Container>
   );

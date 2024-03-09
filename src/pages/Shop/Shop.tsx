@@ -3,6 +3,7 @@ import {
   ErrorFallback,
   MedicinesList,
   PharmaciesSideBar,
+  Loader,
 } from "../../components";
 import { axiosInstance } from "../../api";
 import { useEffect, useState } from "react";
@@ -14,8 +15,8 @@ import {
 } from "../../contextProviders";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-
 import { getErrorMessage } from "../../helpers";
+import * as S from "./Shop.styled";
 
 export default function Shop() {
   const [searchParams] = useSearchParams();
@@ -63,28 +64,25 @@ export default function Shop() {
     <ErrorBoundary FallbackComponent={ErrorFallback} onReset={(details) => {}}>
       <FavoritesProvider>
         <ShoppingCartProvider>
-          <div>
-            <div>
-              <h1>Shop Page</h1>
-            </div>
-
+          <S.Container>
             {!isLoading ? (
               <>
                 {!!pharmacies && !!currentPharmacyId && (
-                  <div>
+                  <S.PageBody>
                     <PharmaciesSideBar
                       pharmacies={pharmacies}
                       pharmacyPickHandler={pharmacyPickHandler}
+                      currentPharmacyId={currentPharmacyId}
                     />
                     <MedicinesList currentPharmacyId={currentPharmacyId} />
-                  </div>
+                  </S.PageBody>
                 )}
               </>
             ) : (
-              <p>XXXXXXXXXXXX=====LOADING-Pharmacies=======XXXXXXXXXXX</p>
+              <Loader />
             )}
             <ToastContainer />
-          </div>
+          </S.Container>
         </ShoppingCartProvider>
       </FavoritesProvider>
     </ErrorBoundary>

@@ -1,5 +1,9 @@
 import * as S from "./MedicinesListItem.styled";
 import { useFavorites, useShoppingCart } from "../../hooks";
+import dayjs from "dayjs";
+import TruncateMarkup from "react-truncate-markup";
+import { FaCartPlus, FaHeart } from "react-icons/fa";
+import placeholderImage from "../../images/placeholder-image.jpg";
 
 interface IMedicinesListItemProps {
   id: string;
@@ -38,26 +42,33 @@ export default function MedicinesListItem({
   };
   return (
     <S.Container>
-      <p>{id}</p>
-      <p>{name}</p>
-      <p>{price}</p>
-      <p>{image}</p>
-      <p>{createdAt}</p>
-      <p>{updatedAt}</p>
-      <S.StyledFavoriteButton
-        type="button"
-        className={`${favorites.includes(id) ? "favorite" : ""}`}
-        onClick={favoritesHandler}>
-        Add to Favorite
-      </S.StyledFavoriteButton>
-      <S.StyledShoppingCartButton
-        type="button"
-        className={`${
-          shoppingCart.find((item) => item.id === id) ? "inCart" : ""
-        }`}
-        onClick={shoppingCartHandler}>
-        Add to Cart
-      </S.StyledShoppingCartButton>
+      <S.ImageThumb>
+        <img src={image || placeholderImage} alt={name} />
+      </S.ImageThumb>
+      <TruncateMarkup lines={2}>
+        <S.Name>{name || "No data"} </S.Name>
+      </TruncateMarkup>
+
+      <S.Price>Price: {price ? `${price} $` : "No data"} </S.Price>
+      <S.Date>
+        Date added: {dayjs(createdAt).format("DD/MM/YYYY HH:mm") || "No data"}
+      </S.Date>
+      <S.ButtonContainer>
+        <S.StyledFavoriteButton
+          type="button"
+          className={`${favorites.includes(id) ? "favorite" : ""}`}
+          onClick={favoritesHandler}>
+          <FaHeart />
+        </S.StyledFavoriteButton>
+        <S.StyledShoppingCartButton
+          type="button"
+          className={`${
+            shoppingCart.find((item) => item.id === id) ? "inCart" : ""
+          }`}
+          onClick={shoppingCartHandler}>
+          <FaCartPlus />
+        </S.StyledShoppingCartButton>
+      </S.ButtonContainer>
     </S.Container>
   );
 }

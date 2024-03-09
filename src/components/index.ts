@@ -10,6 +10,7 @@ import ShoppingCartListItem from "./ShoppingCartListItem/ShoppingCartListItem";
 import Map from "./Map/Map";
 import OrderUserDataForm from "./OrderUserDataForm/OrderUserDataForm";
 import AddressAutocomplete from "./AddressAutocomplete/AddressAutocomplete";
+import Loader from "./Loader/Loader";
 
 export {
   SharedLayout,
@@ -24,4 +25,5 @@ export {
   Map,
   OrderUserDataForm,
   AddressAutocomplete,
+  Loader,
 };

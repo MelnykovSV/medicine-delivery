@@ -10,6 +10,7 @@ import { sortFavorites } from "../../helpers";
 import { useFavorites } from "../../hooks";
 import { toast } from "react-toastify";
 import { getErrorMessage } from "../../helpers";
+import Loader from "../Loader/Loader";
 
 interface IMedicinesListProps {
   currentPharmacyId: string;
@@ -79,13 +80,25 @@ export default function MedicinesList({
           ))}
         </ul>
       ) : (
-        <p>FETCHING MEDICINES...</p>
+        <Loader />
       )}
 
       {totalPages > 1 ? (
         <Pagination
           count={totalPages}
           page={currentPage}
+          sx={{
+            "& .MuiPagination-ul": {
+              justifyContent: "center",
+            },
+            "& .MuiPaginationItem-root": {
+              "&.Mui-selected": {
+                pointerEvents: "none",
+              },
+            },
+            "& .MuiPaginationItem-ellipsis": { border: "none" },
+            "& .Mui-selected": {},
+          }}
           onChange={handlePaginationChange}
         />
       ) : null}
