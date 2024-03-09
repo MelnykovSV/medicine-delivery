@@ -43,7 +43,6 @@ export default function History() {
   const [ordersHistory, setOrdersHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(ordersHistory);
 
   const filterOrders = (ordersHistory: IOrderData[]) => {
     return ordersHistory
