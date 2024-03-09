@@ -52,7 +52,8 @@ export default function Shop() {
         setIsLoading(false);
       }
     })();
-  }, [currentPharmacyId, searchParams, navigate]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const pharmacyPickHandler = (id: string) => {
     searchParams.set("pharmacy", id);
