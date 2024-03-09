@@ -132,7 +132,9 @@ export default function OrderUserDataForm() {
 
       <S.StyledButton
         type="submit"
-        className={isLoading ? "loading" : ""}
+        className={`${isLoading ? "loading" : ""} ${
+          !shoppingCart.length ? "disabled" : ""
+        }`}
         disabled={!shoppingCart.length}>
         Register the order
       </S.StyledButton>

@@ -29,3 +29,9 @@ export const TotalPriceStyled = styled.p`
 
   padding-bottom: 15px;
 `;
+
+export const Message = styled.p`
+  padding-top: 40px;
+  font-size: 25px;
+  font-weight: 700;
+`;

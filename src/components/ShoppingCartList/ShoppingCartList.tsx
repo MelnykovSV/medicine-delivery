@@ -107,7 +107,9 @@ export default function ShoppingCartList() {
                 $
               </S.TotalPriceStyled>
             </>
-          ) : null}
+          ) : (
+            <S.Message>No items in you shopping cart at the moment</S.Message>
+          )}
         </>
       ) : (
         <Loader />

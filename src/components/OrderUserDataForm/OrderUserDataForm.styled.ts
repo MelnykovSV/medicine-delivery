@@ -75,4 +75,9 @@ export const StyledButton = styled.button`
   &:focus {
     background-color: #2268f5;
   }
+
+  &.disabled {
+    background-color: #8b8e91;
+    pointer-events: none;
+  }
 `;
