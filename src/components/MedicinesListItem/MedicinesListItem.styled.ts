@@ -33,7 +33,7 @@ export const ImageThumb = styled.div`
 export const Name = styled.p`
   font-weight: 700;
   font-size: 18px;
-  height: 42px;
+  min-height: 42px;
   margin-bottom: 8px;
 `;
 

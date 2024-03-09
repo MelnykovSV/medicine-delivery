@@ -15,6 +15,7 @@ interface ICartMedicineData extends IMedicineData {
 
 export default function ShoppingCartList() {
   const { shoppingCart } = useShoppingCart();
+  const [isLoading, setisLoading] = useState(false);
 
   const [medicinesMap, setMedicinesMap] = useState<Record<
     string,
@@ -39,11 +40,18 @@ export default function ShoppingCartList() {
     }, [] as ICartMedicineData[]);
   };
 
-  const requestQuery = shoppingCart.map((item) => item.id).join(",");
-
   useEffect(() => {
+    if (
+      shoppingCart.filter((item) => medicinesMap && !!medicinesMap[item.id])
+        .length === shoppingCart.length
+    ) {
+      return;
+    }
+    const requestQuery = shoppingCart.map((item) => item.id).join(",");
+
     (async () => {
       if (requestQuery) {
+        setisLoading(true);
         try {
           const res = await axiosInstance.get(
             `api/medicines/map?id=${requestQuery}`
@@ -51,48 +59,55 @@ export default function ShoppingCartList() {
 
           const medicinesMap = res.data.data.medicines;
           setMedicinesMap(medicinesMap);
+          setisLoading(false);
         } catch (error) {
           toast.error(getErrorMessage(error));
+          setisLoading(false);
         }
       }
     })();
-  }, [requestQuery]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [shoppingCart]);
 
   return (
     <S.Container>
-      {shoppingCart && medicinesMap ? (
+      {!isLoading ? (
         <>
-          <S.StyledList>
-            {generateCartList(shoppingCart, medicinesMap).map(
-              ({
-                _id,
-                name,
-                image,
-                price,
-                createdAt,
-                updatedAt,
-                amount,
-              }: ICartMedicineData) => (
-                <ShoppingCartListItem
-                  key={_id}
-                  _id={_id}
-                  name={name}
-                  image={image}
-                  price={price}
-                  createdAt={createdAt}
-                  updatedAt={updatedAt}
-                  amount={amount}
-                />
-              )
-            )}
-          </S.StyledList>
-          <S.TotalPriceStyled>
-            Total price:{" "}
-            {calculateTotalPrice(
-              generateCartList(shoppingCart, medicinesMap)
-            ).toFixed(2)}{" "}
-            $
-          </S.TotalPriceStyled>
+          {medicinesMap ? (
+            <>
+              <S.StyledList>
+                {generateCartList(shoppingCart, medicinesMap).map(
+                  ({
+                    _id,
+                    name,
+                    image,
+                    price,
+                    createdAt,
+                    updatedAt,
+                    amount,
+                  }: ICartMedicineData) => (
+                    <ShoppingCartListItem
+                      key={_id}
+                      _id={_id}
+                      name={name}
+                      image={image}
+                      price={price}
+                      createdAt={createdAt}
+                      updatedAt={updatedAt}
+                      amount={amount}
+                    />
+                  )
+                )}
+              </S.StyledList>
+              <S.TotalPriceStyled>
+                Total price:{" "}
+                {calculateTotalPrice(
+                  generateCartList(shoppingCart, medicinesMap)
+                ).toFixed(2)}{" "}
+                $
+              </S.TotalPriceStyled>
+            </>
+          ) : null}
         </>
       ) : (
         <Loader />

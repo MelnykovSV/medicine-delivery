@@ -46,7 +46,7 @@ export default function MedicinesListItem({
         <img src={image || placeholderImage} alt={name} />
       </S.ImageThumb>
       <TruncateMarkup lines={2}>
-        <S.Name>{name || "No data"} </S.Name>
+        <S.Name>{name || "No data"}</S.Name>
       </TruncateMarkup>
 
       <S.Price>Price: {price ? `${price} $` : "No data"} </S.Price>

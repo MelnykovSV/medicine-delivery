@@ -11,6 +11,10 @@ import Map from "./Map/Map";
 import OrderUserDataForm from "./OrderUserDataForm/OrderUserDataForm";
 import AddressAutocomplete from "./AddressAutocomplete/AddressAutocomplete";
 import Loader from "./Loader/Loader";
+import FilterTab from "./FilterTab/FilterTab";
+import OrdersHistoryList from "./OrdersHistoryList/OrdersHistoryList";
+import OrdersHistoryListItem from "./OrdersHistoryListItem/OrdersHistoryListItem";
+import OrderHistoryCartItem from "./OrderHistoryCartItem/OrderHistoryCartItem";
 
 export {
   SharedLayout,
@@ -26,4 +30,8 @@ export {
   OrderUserDataForm,
   AddressAutocomplete,
   Loader,
+  FilterTab,
+  OrdersHistoryList,
+  OrdersHistoryListItem,
+  OrderHistoryCartItem
 };

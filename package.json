@@ -32,7 +32,9 @@
     "react-scripts": "5.0.1",
     "react-toastify": "^10.0.4",
     "react-truncate-markup": "^5.1.2",
+    "swiper": "^11.0.7",
     "typescript": "^4.9.5",
+    "usehooks-ts": "^3.0.1",
     "web-vitals": "^2.1.4",
     "yup": "^1.4.0"
   },

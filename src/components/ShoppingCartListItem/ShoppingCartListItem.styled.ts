@@ -5,7 +5,6 @@ export const Container = styled.li`
   border-radius: 20px;
   width: 100%;
   padding: 20px;
-  overflow: hidden;
 
   &:not(:last-of-type) {
     margin-bottom: 10px;
@@ -17,8 +16,14 @@ export const Container = styled.li`
 `;
 
 export const ContentBlock = styled.div`
-  width: 50%;
-  flex-shrink: 0;
+  width: 100%;
+
+  @media screen and (min-width: 768px) {
+    width: 100%;
+  }
+  @media screen and (min-width: 1440px) {
+    width: 50%;
+  }
 `;
 
 export const ImageThumb = styled.div`
@@ -42,7 +47,7 @@ export const ImageThumb = styled.div`
 export const Name = styled.p`
   font-weight: 700;
   font-size: 18px;
-  height: 42px;
+  max-height: 42px;
   margin-bottom: 8px;
 `;
 

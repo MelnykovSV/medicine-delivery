@@ -17,7 +17,6 @@ export default function ShoppingCartListItem({
   image,
   price,
   createdAt,
-  updatedAt,
   amount,
 }: ICartMedicineData) {
   const { shoppingCart, updateShoppingCart } = useShoppingCart();
@@ -59,7 +58,7 @@ export default function ShoppingCartListItem({
       <S.ImageThumb>
         <img src={image || placeholderImage} alt={name} />
       </S.ImageThumb>
-      <div>
+      <S.ContentBlock>
         <TruncateMarkup lines={2}>
           <S.Name>{name || "No data"} </S.Name>
         </TruncateMarkup>
@@ -94,7 +93,7 @@ export default function ShoppingCartListItem({
             <FaTrashAlt />
           </S.RemoveButton>
         </S.BottomBlock>
-      </div>
+      </S.ContentBlock>
     </S.Container>
   );
 }
