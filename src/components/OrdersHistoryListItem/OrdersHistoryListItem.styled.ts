@@ -6,6 +6,10 @@ export const Container = styled.li`
   gap: 10px;
   position: relative;
 
+  .swiper {
+    width: 100%;
+  }
+
   &:after {
     content: "";
     position: absolute;
